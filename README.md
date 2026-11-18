@@ -1,36 +1,34 @@
-# Clone-Kahoot: business requirements
+# Clone-Kahoot: бизнес-требования
 
-Product and business documentation for **Clone-Kahoot**, a real-time quiz game inspired by Kahoot. A host builds a quiz and runs it live; players join from their own devices, type answers and see the winners table at the end.
+Продуктовая и бизнес-документация для **Clone-Kahoot**, квиз-игры в реальном времени по мотивам Kahoot. Ведущий составляет квиз и проводит его вживую. Игроки подключаются со своих устройств, вводят ответы и в конце видят таблицу победителей.
 
-The requirements were reverse-engineered from the current code of both repositories and describe **what the product does today**, the **business rules** it follows, and the **gaps** between the current implementation and a product that is ready for real users.
+Требования восстановлены по текущему коду обоих репозиториев. Они описывают, **что продукт умеет сейчас**, каким **бизнес-правилам** он следует и каких **пробелов** не хватает до продукта, готового для реальных пользователей.
 
-| Repository | Role |
+| Репозиторий | Роль |
 |---|---|
-| [clone-kahoot](https://github.com/m5production/clone-kahoot) | Frontend: React SPA, hosted on GitHub Pages ([live demo](https://dimetriyo.github.io/clone-kahoot/)) |
-| [clone-kahoot-backend](https://github.com/m5production/clone-kahoot-backend) | Backend: Express REST API + WebSocket server, Prisma + SQLite, Docker on Amvera |
+| [clone-kahoot](https://github.com/m5production/clone-kahoot) | Фронтенд: React SPA на GitHub Pages ([демо](https://dimetriyo.github.io/clone-kahoot/)) |
+| [clone-kahoot-backend](https://github.com/m5production/clone-kahoot-backend) | Бэкенд: REST API на Express и WebSocket-сервер, Prisma и SQLite, Docker на Amvera |
 
-## Contents
+## Содержание
 
-1. [Product vision](docs/01-product-vision.md): problem, goals, target users, scope
-2. [Roles and user stories](docs/02-roles-and-user-stories.md): personas, user stories, acceptance criteria
-3. [Functional requirements](docs/03-functional-requirements.md): numbered requirements with implementation status
-4. [Business rules](docs/04-business-rules.md): authentication, quiz building, answering and scoring rules
-5. [Domain model and glossary](docs/05-domain-model.md): entities, relations, terms
-6. [Live game flow](docs/06-live-game-flow.md): game lifecycle, sequence of events, real-time message protocol
-7. [Non-functional requirements](docs/07-non-functional-requirements.md): security, performance, availability, UX
-8. [Gaps and backlog](docs/08-gaps-and-backlog.md): known issues and a prioritized product backlog
+1. [Видение продукта](docs/01-product-vision.md): проблема, цели, целевые пользователи, границы
+2. [Роли и пользовательские истории](docs/02-roles-and-user-stories.md): роли, user stories, критерии приёмки
+3. [Функциональные требования](docs/03-functional-requirements.md): пронумерованные требования со статусом реализации
+4. [Бизнес-правила](docs/04-business-rules.md): правила входа, составления квиза, ответов и подсчёта очков
+5. [Доменная модель и глоссарий](docs/05-domain-model.md): сущности, связи, термины
+6. [Сценарий живой игры](docs/06-live-game-flow.md): жизненный цикл игры, последовательность событий, протокол сообщений
+7. [Нефункциональные требования](docs/07-non-functional-requirements.md): безопасность, производительность, надёжность, удобство
+8. [Пробелы и бэклог](docs/08-gaps-and-backlog.md): найденные проблемы и бэклог по приоритетам
 
-## Status legend
+## Статусы
 
-Requirements use these statuses:
-
-| Status | Meaning |
+| Статус | Значение |
 |---|---|
-| Implemented | Works end to end in the current code |
-| Partial | Works with limitations described in the requirement |
-| Not implemented | Needed for the product, missing in the code |
+| Реализовано | Работает от начала до конца в текущем коде |
+| Частично | Работает с ограничениями, описанными в требовании |
+| Не реализовано | Нужно продукту, но в коде отсутствует |
 
-## How to update
+## Как обновлять
 
-- Every requirement has a stable ID (`FR-…`, `BR-…`, `NFR-…`, `GAP-…`). Reference these IDs in issues and PRs of the frontend and backend repositories.
-- When a feature ships, update its status and the related backlog item in the same PR.
+- У каждого требования есть постоянный ID (`US-…`, `FR-…`, `BR-…`, `NFR-…`, `GAP-…`). Ссылайтесь на эти ID в задачах и PR фронтенда и бэкенда.
+- Когда функция готова, обновите её статус и связанный пункт бэклога в том же PR.

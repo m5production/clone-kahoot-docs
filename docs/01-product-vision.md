@@ -1,54 +1,54 @@
-# 1. Product vision
+# 1. Видение продукта
 
-## Problem
+## Проблема
 
-Teachers, event hosts and team leads want to run a short live quiz for a group of people: everyone answers on their own device, the host controls the pace, and the results are shown at the end. Existing tools are often paid, heavy, or require players to install an app.
+Учителя, ведущие мероприятий и тимлиды хотят провести короткий живой квиз для группы людей: каждый отвечает со своего устройства, ведущий управляет темпом, в конце показываются результаты. Существующие инструменты часто платные, тяжёлые или требуют установки приложения.
 
-## Product
+## Продукт
 
-Clone-Kahoot is a web app with two sides:
+Clone-Kahoot — веб-приложение с двумя сторонами:
 
-- **Host side:** create a quiz (a set of questions with accepted answers and optional images), start it live, switch questions, reveal answers and show the winners.
-- **Player side:** join a running quiz by its game ID, answer each question by typing text, and see the final leaderboard.
+- **Ведущий:** создаёт квиз (набор вопросов с принимаемыми ответами и необязательными картинками), запускает его вживую, переключает вопросы, показывает ответы и победителей.
+- **Игрок:** подключается к идущему квизу по ID игры, отвечает на каждый вопрос текстом и видит итоговую таблицу.
 
-Everything runs in the browser. Players and the host see changes in real time over WebSocket.
+Всё работает в браузере. Изменения доходят до игроков и ведущего в реальном времени через WebSocket.
 
-## Goals
+## Цели
 
-| ID | Goal | How we measure it |
+| ID | Цель | Как измеряем |
 |---|---|---|
-| G-1 | A host can prepare a quiz without help | Time from sign-in to a ready quiz with 5 questions |
-| G-2 | Players join in seconds | Time from receiving the game ID to seeing the first question |
-| G-3 | The game feels live | Delay between a host action and its display on player screens |
-| G-4 | Results are fair and clear | Winners table matches the number of correct answers of each player |
+| G-1 | Ведущий готовит квиз без посторонней помощи | Время от входа до готового квиза из 5 вопросов |
+| G-2 | Игроки подключаются за секунды | Время от получения ID игры до первого вопроса на экране |
+| G-3 | Игра ощущается живой | Задержка между действием ведущего и его отображением у игроков |
+| G-4 | Результаты честные и понятные | Таблица победителей совпадает с числом правильных ответов каждого игрока |
 
-## Target users
+## Целевые пользователи
 
-- **Host (quiz author):** creates and runs quizzes. Typical cases: a teacher in a class, a speaker at a meetup, a team lead at a team event.
-- **Player (participant):** joins a quiz from a laptop or phone and answers questions.
+- **Ведущий (автор квиза):** создаёт и проводит квизы. Типичные случаи: учитель на уроке, спикер на митапе, тимлид на командном мероприятии.
+- **Игрок (участник):** подключается к квизу с ноутбука или телефона и отвечает на вопросы.
 
-The same account can act as a host for its own quizzes and as a player in other quizzes.
+Один и тот же аккаунт может быть ведущим своих квизов и игроком в чужих.
 
-## Scope
+## Границы
 
-### In scope (current product)
+### Входит в продукт сейчас
 
-- Sign-in with nickname and password; the account is created automatically on the first sign-in
-- List of the host's quizzes and creation of a new quiz
-- Quiz builder: questions with text, optional image URL and one or more accepted text answers
-- Live game run by the host: question switching, answer reveal, winners table, game end
-- Player screen: current question, answer input, list of players, winners table
+- Вход по никнейму и паролю; при первом входе аккаунт создаётся автоматически
+- Список квизов ведущего и создание нового квиза
+- Конструктор квиза: вопросы с текстом, необязательной ссылкой на картинку и одним или несколькими принимаемыми текстовыми ответами
+- Живая игра под управлением ведущего: переключение вопросов, показ ответов, таблица победителей, завершение игры
+- Экран игрока: текущий вопрос, поле ответа, список игроков, таблица победителей
 
-### Out of scope (current product)
+### Не входит в продукт сейчас
 
-- Multiple-choice answers with colored buttons (the original Kahoot format); answers are free text
-- Timer per question and speed-based scoring
-- Several live games at the same time (see [GAP-1](08-gaps-and-backlog.md))
-- Quiz titles, descriptions, categories, sharing and public quiz library
-- Analytics and history of past games
+- Ответы с выбором из вариантов и цветными кнопками (формат оригинального Kahoot); ответы вводятся текстом
+- Таймер на вопрос и очки за скорость
+- Несколько живых игр одновременно (см. [GAP-1](08-gaps-and-backlog.md))
+- Названия, описания и категории квизов, обмен квизами и публичная библиотека
+- Аналитика и история прошедших игр
 
-## Assumptions and constraints
+## Допущения и ограничения
 
-- A game is small: one host and a classroom-sized group of players.
-- The host and players are online during the whole game; live game state is kept in server memory only.
-- Frontend is a static SPA on GitHub Pages; backend is a single container with an SQLite database.
+- Игра небольшая: один ведущий и группа размером с класс.
+- Ведущий и игроки онлайн всю игру; состояние живой игры хранится только в памяти сервера.
+- Фронтенд — статическое SPA на GitHub Pages; бэкенд — один контейнер с базой SQLite.

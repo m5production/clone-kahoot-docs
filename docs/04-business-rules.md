@@ -1,54 +1,54 @@
-# 4. Business rules
+# 4. Бизнес-правила
 
-## Accounts
+## Аккаунты
 
-| ID | Rule |
+| ID | Правило |
 |---|---|
-| BR-1 | A nickname identifies a user and must be unique across the system. |
-| BR-2 | Signing in with an unknown nickname creates a new account with that nickname and password. |
-| BR-3 | Signing in with a known nickname and a wrong password is rejected (the nickname is taken). |
-| BR-4 | Any user can be a host and a player; there is no separate admin account. |
+| BR-1 | Никнейм идентифицирует пользователя и должен быть уникальным во всей системе. |
+| BR-2 | Вход с незарегистрированным никнеймом создаёт новый аккаунт с этим никнеймом и паролем. |
+| BR-3 | Вход с существующим никнеймом и неверным паролем отклоняется (никнейм занят). |
+| BR-4 | Любой пользователь может быть и ведущим, и игроком; отдельного аккаунта администратора нет. |
 
-## Quizzes and questions
+## Квизы и вопросы
 
-| ID | Rule |
+| ID | Правило |
 |---|---|
-| BR-10 | A quiz belongs to the user who created it (the host). |
-| BR-11 | A quiz consists of zero or more questions. Questions are shown in the order they are stored. |
-| BR-12 | A question has text (required to save), an optional image URL and at least one accepted answer. |
-| BR-13 | Accepted answers of a question are saved as a whole set: saving replaces all previous accepted answers. |
-| BR-14 | Deleting a question deletes its accepted answers. |
+| BR-10 | Квиз принадлежит пользователю, который его создал (ведущему). |
+| BR-11 | Квиз состоит из нуля или более вопросов. Вопросы показываются в порядке хранения. |
+| BR-12 | У вопроса есть текст (обязателен для сохранения), необязательная ссылка на картинку и хотя бы один принимаемый ответ. |
+| BR-13 | Принимаемые ответы вопроса сохраняются целым набором: сохранение заменяет все прежние принимаемые ответы. |
+| BR-14 | Удаление вопроса удаляет его принимаемые ответы. |
 
-## Live game
+## Живая игра
 
-| ID | Rule |
+| ID | Правило |
 |---|---|
-| BR-20 | Only one live game can run on the server at a time. Starting a second game is rejected with "The game is already running". |
-| BR-21 | When a live game starts, the first question of the quiz is active. |
-| BR-22 | The host decides which question is active and can return to earlier questions. |
-| BR-23 | Players can join at any time while the game is running, including after the first questions. |
-| BR-24 | A user is added to a game once; a repeated join is ignored. |
-| BR-25 | A player who disconnects is removed from the game together with their answers. |
-| BR-26 | When the host disconnects or stops the game, the game ends for everyone and its live state is discarded. Results are not saved. |
+| BR-20 | На сервере одновременно может идти только одна живая игра. Запуск второй отклоняется с сообщением «The game is already running». |
+| BR-21 | При запуске живой игры активен первый вопрос квиза. |
+| BR-22 | Ведущий решает, какой вопрос активен, и может возвращаться к прошлым вопросам. |
+| BR-23 | Игроки могут подключиться в любой момент, пока идёт игра, в том числе после первых вопросов. |
+| BR-24 | Пользователь добавляется в игру один раз; повторное подключение игнорируется. |
+| BR-25 | Отключившийся игрок удаляется из игры вместе со своими ответами. |
+| BR-26 | Когда ведущий отключается или останавливает игру, игра заканчивается для всех, а её состояние удаляется. Результаты не сохраняются. |
 
-## Answers and scoring
+## Ответы и подсчёт очков
 
-| ID | Rule |
+| ID | Правило |
 |---|---|
-| BR-30 | A player answers by typing free text. An empty answer is not accepted. |
-| BR-31 | A player gives one answer per question. The answer cannot be changed after sending. |
-| BR-32 | An answer is **correct** when it exactly matches one of the accepted answers of the question. The match is case-sensitive and sensitive to spaces: `Paris`, `paris` and `Paris ` are three different answers. |
-| BR-33 | A player who did not answer a question gets it counted as wrong. |
-| BR-34 | Answers to a question are revealed to everyone only when the host presses "Show answers". |
-| BR-35 | The score of a player is the number of correct answers. There is no time bonus and no penalty for wrong answers. |
-| BR-36 | The winners table lists players by score, highest first. Players with equal scores have no defined order. |
+| BR-30 | Игрок отвечает, вводя произвольный текст. Пустой ответ не принимается. |
+| BR-31 | Игрок даёт один ответ на вопрос. После отправки ответ изменить нельзя. |
+| BR-32 | Ответ **верный**, если он точно совпадает с одним из принимаемых ответов вопроса. Сравнение учитывает регистр и пробелы: `Paris`, `paris` и `Paris ` — три разных ответа. |
+| BR-33 | Если игрок не ответил на вопрос, вопрос засчитывается как неверный. |
+| BR-34 | Ответы на вопрос показываются всем только после нажатия ведущим «Show answers». |
+| BR-35 | Очки игрока — это число правильных ответов. Бонуса за скорость и штрафа за неверные ответы нет. |
+| BR-36 | В таблице победителей игроки отсортированы по очкам, от большего к меньшему. Порядок игроков с равными очками не определён. |
 
-## Open questions for the product owner
+## Открытые вопросы к владельцу продукта
 
-These rules are implied by the code but should be confirmed:
+Эти правила следуют из кода, но их нужно подтвердить:
 
-1. Should answer matching ignore case and surrounding spaces (BR-32)? Most hosts expect `paris` to match `Paris`.
-2. Should players who join late be able to answer earlier questions (BR-22, BR-23)?
-3. Should the winners table show ties as the same place (BR-36)?
-4. Should a player keep their answers after a short disconnect (BR-25)?
-5. Should game results be saved for later review (BR-26)?
+1. Должно ли сравнение ответов игнорировать регистр и пробелы по краям (BR-32)? Большинство ведущих ожидают, что `paris` совпадёт с `Paris`.
+2. Должны ли игроки, подключившиеся поздно, иметь возможность отвечать на прошлые вопросы (BR-22, BR-23)?
+3. Должны ли игроки с равными очками делить одно место в таблице победителей (BR-36)?
+4. Должен ли игрок сохранять свои ответы после короткого отключения (BR-25)?
+5. Нужно ли сохранять результаты игры, чтобы посмотреть их позже (BR-26)?

@@ -1,83 +1,85 @@
-# 6. Live game flow
+# 6. Сценарий живой игры
 
-## Game lifecycle
+## Жизненный цикл игры
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Draft: Host creates quiz
-    Draft --> Draft: Host edits questions
-    Draft --> Running: Host presses "Start this quiz"
-    Running --> Running: Players join and answer, host switches questions and reveals answers
-    Running --> WinnersShown: Host presses "End Quiz and show winners"
-    WinnersShown --> Draft: Host presses "Stop Quiz"
-    Running --> Draft: Host leaves the page
-    WinnersShown --> Draft: Host leaves the page
+    [*] --> Draft: Ведущий создаёт квиз
+    Draft --> Draft: Ведущий редактирует вопросы
+    Draft --> Running: Ведущий нажимает «Start this quiz»
+    Running --> Running: Игроки подключаются и отвечают, ведущий переключает вопросы и показывает ответы
+    Running --> WinnersShown: Ведущий нажимает «End Quiz and show winners»
+    WinnersShown --> Draft: Ведущий нажимает «Stop Quiz»
+    Running --> Draft: Ведущий уходит со страницы
+    WinnersShown --> Draft: Ведущий уходит со страницы
 ```
 
-A quiz can be played again: after a game ends, the quiz returns to the draft state and can be started again. Results of the previous run are not kept.
+Состояния: `Draft` — черновик, `Running` — игра идёт, `WinnersShown` — показаны победители.
 
-## End-to-end scenario
+Квиз можно сыграть повторно: после окончания игры он возвращается в черновик, и его можно запустить снова. Результаты прошлого запуска не сохраняются.
+
+## Сквозной сценарий
 
 ```mermaid
 sequenceDiagram
-    actor Host
-    participant FE as Frontend (SPA)
-    participant BE as Backend
-    actor Player
+    actor Host as Ведущий
+    participant FE as Фронтенд (SPA)
+    participant BE as Бэкенд
+    actor Player as Игрок
 
     Host->>FE: Start this quiz
-    FE->>BE: START_GAME (quiz ID)
-    BE-->>FE: GAME_DATA (questions, first question active, no players)
-    Host->>Player: Shares game ID (outside the app)
-    Player->>FE: Enters game ID, Join game
-    FE->>BE: Is this game running? (REST)
-    BE-->>FE: Yes
-    FE->>BE: PLAYER_CONNECTED (user ID)
-    BE-->>FE: GAME_DATA to everyone (player added)
-    Player->>FE: Types answer, Send
+    FE->>BE: START_GAME (ID квиза)
+    BE-->>FE: GAME_DATA (вопросы, первый активен, игроков нет)
+    Host->>Player: Передаёт ID игры (вне приложения)
+    Player->>FE: Вводит ID игры, Join game
+    FE->>BE: Идёт ли эта игра? (REST)
+    BE-->>FE: Да
+    FE->>BE: PLAYER_CONNECTED (ID пользователя)
+    BE-->>FE: GAME_DATA всем (игрок добавлен)
+    Player->>FE: Вводит ответ, Send
     FE->>BE: ANSWER_QUESTION
-    BE->>BE: Check against accepted answers
-    BE-->>FE: GAME_DATA to everyone (player marked as answered)
+    BE->>BE: Сверка с принимаемыми ответами
+    BE-->>FE: GAME_DATA всем (игрок отмечен как ответивший)
     Host->>FE: Show answers
     FE->>BE: SHOW_ANSWERS
-    BE-->>FE: SHOW_ANSWERS to everyone (answers with correct/wrong)
-    Host->>FE: Next question
+    BE-->>FE: SHOW_ANSWERS всем (ответы с отметкой верно или неверно)
+    Host->>FE: Следующий вопрос
     FE->>BE: CHANGE_QUESTION
-    BE-->>FE: GAME_DATA to everyone (new active question)
+    BE-->>FE: GAME_DATA всем (новый активный вопрос)
     Host->>FE: End Quiz and show winners
     FE->>BE: SHOW_WINNERS
-    BE-->>FE: SHOW_WINNERS to everyone (players go to winners page)
+    BE-->>FE: SHOW_WINNERS всем (игроки переходят к победителям)
     Host->>FE: Stop Quiz
     FE->>BE: END_GAME
-    BE-->>FE: END_GAME to everyone
+    BE-->>FE: END_GAME всем
 ```
 
-## Real-time messages
+## Сообщения реального времени
 
-All live events go over one WebSocket connection per browser tab. Each message is JSON `{ "type": ..., "payload": ... }`.
+Все события живой игры идут через одно WebSocket-соединение на вкладку браузера. Каждое сообщение — JSON вида `{ "type": ..., "payload": ... }`.
 
-### From clients to server
+### От клиентов к серверу
 
-| Message | Sent by | Payload | Business meaning |
+| Сообщение | Кто отправляет | Данные | Бизнес-смысл |
 |---|---|---|---|
-| `START_GAME` | Host | quiz ID | Start the quiz live |
-| `PLAYER_CONNECTED` | Player | user ID | Join the running game |
-| `CHANGE_QUESTION` | Host | question ID | Make a question active |
-| `ANSWER_QUESTION` | Player | question ID, answer text, user ID | Send an answer |
-| `SHOW_ANSWERS` | Host | question ID | Reveal answers to the question |
-| `SHOW_WINNERS` | Host | none | Show the winners table |
-| `END_GAME` | Host | none | Stop the game |
+| `START_GAME` | Ведущий | ID квиза | Запустить квиз вживую |
+| `PLAYER_CONNECTED` | Игрок | ID пользователя | Подключиться к идущей игре |
+| `CHANGE_QUESTION` | Ведущий | ID вопроса | Сделать вопрос активным |
+| `ANSWER_QUESTION` | Игрок | ID вопроса, текст ответа, ID пользователя | Отправить ответ |
+| `SHOW_ANSWERS` | Ведущий | ID вопроса | Показать ответы на вопрос |
+| `SHOW_WINNERS` | Ведущий | нет | Показать таблицу победителей |
+| `END_GAME` | Ведущий | нет | Остановить игру |
 
-### From server to clients
+### От сервера к клиентам
 
-| Message | Payload | Business meaning |
+| Сообщение | Данные | Бизнес-смысл |
 |---|---|---|
-| `GAME_DATA` | full live game state | Players, questions or active question changed |
-| `SHOW_ANSWERS` | each player's answer to the question with correct/wrong | Reveal |
-| `SHOW_WINNERS` | none | Go to the winners table |
-| `END_GAME` | none | The game is over |
-| `FAULT` | error text | The action was rejected (game already running, no game running) |
+| `GAME_DATA` | полное состояние живой игры | Изменились игроки, вопросы или активный вопрос |
+| `SHOW_ANSWERS` | ответ каждого игрока на вопрос с отметкой верно или неверно | Показ ответов |
+| `SHOW_WINNERS` | нет | Перейти к таблице победителей |
+| `END_GAME` | нет | Игра окончена |
+| `FAULT` | текст ошибки | Действие отклонено (игра уже идёт, игра не идёт) |
 
-Server messages are sent to **every** connected client, not only to the players of a specific game. This works only because one game runs at a time (BR-20).
+Сервер отправляет сообщения **всем** подключённым клиентам, а не только игрокам конкретной игры. Это работает только потому, что одновременно идёт одна игра (BR-20).
 
-The server does not check who sends a message: any connected client can send host messages such as `CHANGE_QUESTION` or `END_GAME` (see [GAP-3](08-gaps-and-backlog.md)).
+Сервер не проверяет, кто отправил сообщение: любой подключённый клиент может отправить сообщения ведущего, например `CHANGE_QUESTION` или `END_GAME` (см. [GAP-3](08-gaps-and-backlog.md)).

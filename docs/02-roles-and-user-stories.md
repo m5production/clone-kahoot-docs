@@ -1,100 +1,100 @@
-# 2. Roles and user stories
+# 2. Роли и пользовательские истории
 
-## Roles
+## Роли
 
-| Role | Who | What they can do |
+| Роль | Кто это | Что может |
 |---|---|---|
-| Guest | Not signed in | Sign in (or sign up automatically) |
-| User | Signed in | See own quizzes, create a quiz, join a running game |
-| Host | User who owns a quiz | Edit the quiz, start it, run the live game |
-| Player | User who joined a running game | Answer questions, see other players and the winners |
+| Гость | Не вошёл в систему | Войти (или автоматически зарегистрироваться) |
+| Пользователь | Вошёл в систему | Видеть свои квизы, создать квиз, подключиться к идущей игре |
+| Ведущий | Пользователь, создавший квиз | Редактировать квиз, запускать его, проводить живую игру |
+| Игрок | Пользователь, подключившийся к идущей игре | Отвечать на вопросы, видеть других игроков и победителей |
 
-Roles are not stored in the database: a user is a host for the quizzes they created (`Game.adminId`) and a player while connected to someone else's running game.
+Роли не хранятся в базе: пользователь является ведущим для квизов, которые он создал (`Game.adminId`), и игроком, пока подключён к чужой идущей игре.
 
-## User stories
+## Пользовательские истории
 
-Acceptance criteria describe the current behavior. Status values are explained in the [README](../README.md#status-legend).
+Критерии приёмки описывают текущее поведение. Статусы объяснены в [README](../README.md#статусы).
 
-### Account
+### Аккаунт
 
-**US-1. Sign in or sign up in one step** (Implemented)
-As a guest, I want to enter a nickname and a password and get in, so that I do not need a separate registration form.
-- Given a nickname and password of an existing user, when I press "Enter", then I am signed in and see the main page.
-- Given a nickname that does not exist, when I press "Enter", then a new account is created with these credentials and I am signed in.
-- Given an existing nickname and a wrong password, then a new account cannot be created (nickname is taken) and I see an error message.
-- Both fields are required.
+**US-1. Вход или регистрация за один шаг** (Реализовано)
+Как гость, я хочу ввести никнейм и пароль и сразу войти, чтобы не заполнять отдельную форму регистрации.
+- Если такой пользователь существует и пароль верный, после нажатия «Enter» я вхожу и вижу главную страницу.
+- Если никнейма нет, после нажатия «Enter» создаётся новый аккаунт с этими данными, и я вхожу.
+- Если никнейм существует, а пароль неверный, новый аккаунт не создаётся (никнейм занят), и я вижу сообщение об ошибке.
+- Оба поля обязательны.
 
-**US-2. Stay signed in** (Implemented)
-As a user, I want the app to remember me, so that I do not sign in on every visit.
-- When I open the start page and my saved user still exists, I am redirected to the main page.
+**US-2. Оставаться в системе** (Реализовано)
+Как пользователь, я хочу, чтобы приложение меня запоминало и мне не приходилось входить при каждом визите.
+- Если я открываю стартовую страницу и мой сохранённый пользователь существует, меня перенаправляет на главную.
 
-**US-3. Log out** (Implemented)
-As a user, I want to log out, so that someone else can use this device.
-- When I press "Logout", my saved session is removed and I return to the sign-in page.
+**US-3. Выход** (Реализовано)
+Как пользователь, я хочу выйти, чтобы этим устройством мог пользоваться кто-то другой.
+- После нажатия «Logout» сохранённая сессия удаляется, и я возвращаюсь на страницу входа.
 
-### Host: building a quiz
+### Ведущий: составление квиза
 
-**US-4. See my quizzes** (Implemented)
-As a host, I want to see the list of quizzes I created, so that I can open one of them.
-- The main page shows my quizzes as "Quiz #1", "Quiz #2", ... in creation order.
-- If I have no quizzes, I see "You haven't created any games yet."
+**US-4. Мои квизы** (Реализовано)
+Как ведущий, я хочу видеть список созданных мной квизов, чтобы открыть нужный.
+- На главной странице квизы показаны как «Quiz #1», «Quiz #2», ... в порядке создания.
+- Если квизов нет, я вижу «You haven't created any games yet.»
 
-**US-5. Create a quiz** (Implemented)
-As a host, I want to create a new quiz in one click and go straight to the builder.
+**US-5. Создать квиз** (Реализовано)
+Как ведущий, я хочу создать новый квиз одним нажатием и сразу попасть в конструктор.
 
-**US-6. Add and edit questions** (Implemented)
-As a host, I want to add questions with text, an optional picture and accepted answers, so that players have something to answer.
-- "Add new question" creates an empty question and opens it in the editor.
-- Question text is required; the image is set by URL and previewed.
-- At least one accepted answer is required; empty accepted answers are not allowed.
-- I can add and remove accepted answers.
-- Saving replaces the stored accepted answers with the ones in the form; I see a success message.
+**US-6. Добавить и отредактировать вопросы** (Реализовано)
+Как ведущий, я хочу добавлять вопросы с текстом, необязательной картинкой и принимаемыми ответами, чтобы игрокам было на что отвечать.
+- «Add new question» создаёт пустой вопрос и открывает его в редакторе.
+- Текст вопроса обязателен; картинка задаётся ссылкой и показывается в превью.
+- Нужен хотя бы один принимаемый ответ; пустые принимаемые ответы не допускаются.
+- Принимаемые ответы можно добавлять и удалять.
+- При сохранении сохранённые принимаемые ответы заменяются ответами из формы; я вижу сообщение об успехе.
 
-**US-7. Delete a question** (Implemented)
-As a host, I want to delete a question together with its accepted answers.
+**US-7. Удалить вопрос** (Реализовано)
+Как ведущий, я хочу удалить вопрос вместе с его принимаемыми ответами.
 
-**US-8. Start a quiz only when it is ready** (Partial)
-As a host, I want the "Start this quiz" button to be available only when every question has text and at least one accepted answer.
-- Current behavior: the button is always enabled ([GAP-6](08-gaps-and-backlog.md)).
+**US-8. Запускать квиз, только когда он готов** (Частично)
+Как ведущий, я хочу, чтобы кнопка «Start this quiz» была доступна, только когда у каждого вопроса есть текст и хотя бы один принимаемый ответ.
+- Сейчас кнопка доступна всегда ([GAP-6](08-gaps-and-backlog.md)).
 
-### Host: running a live game
+### Ведущий: проведение живой игры
 
-**US-9. Start a live game** (Partial)
-As a host, I want to start my quiz live and share its ID with players.
-- The first question is active when the game starts.
-- "Copy link for the players" copies the **game ID** (not a URL) to the clipboard and shows a confirmation for 3 seconds.
-- Limitation: only one live game can run on the server at a time ([GAP-1](08-gaps-and-backlog.md)).
+**US-9. Запустить живую игру** (Частично)
+Как ведущий, я хочу запустить свой квиз вживую и поделиться его ID с игроками.
+- При старте игры активен первый вопрос.
+- «Copy link for the players» копирует в буфер обмена **ID игры** (не URL) и показывает подтверждение на 3 секунды.
+- Ограничение: на сервере может идти только одна живая игра одновременно ([GAP-1](08-gaps-and-backlog.md)).
 
-**US-10. See who joined and who answered** (Implemented)
-As a host, I want to see the list of players and who has already answered the current question.
-- Each player has a random color; players who answered the current question are highlighted.
+**US-10. Видеть, кто подключился и кто ответил** (Реализовано)
+Как ведущий, я хочу видеть список игроков и кто уже ответил на текущий вопрос.
+- У каждого игрока случайный цвет; ответившие на текущий вопрос подсвечиваются.
 
-**US-11. Switch questions** (Implemented)
-As a host, I want to choose which question is shown to players, in any order.
+**US-11. Переключать вопросы** (Реализовано)
+Как ведущий, я хочу выбирать, какой вопрос видят игроки, в любом порядке.
 
-**US-12. Reveal answers** (Implemented)
-As a host, I want to show every player's answer to the current question, marked correct (green) or wrong (red).
-- Players who did not answer are shown with "No answer" and counted as wrong.
+**US-12. Показать ответы** (Реализовано)
+Как ведущий, я хочу показать ответ каждого игрока на текущий вопрос с отметкой «верно» (зелёный) или «неверно» (красный).
+- Не ответившие показаны с «No answer» и считаются ответившими неверно.
 
-**US-13. Show winners and end the game** (Implemented)
-As a host, I want to end the quiz and show the winners table to everyone, then stop the game.
-- "End Quiz and show winners" shows the winners table to the host and redirects players to the winners page.
-- "Stop Quiz" becomes available after the winners are shown and ends the game on the server.
-- If the host closes the page, the game ends.
+**US-13. Показать победителей и завершить игру** (Реализовано)
+Как ведущий, я хочу завершить квиз, показать всем таблицу победителей, а затем остановить игру.
+- «End Quiz and show winners» показывает таблицу победителей ведущему и перенаправляет игроков на страницу победителей.
+- «Stop Quiz» становится доступна после показа победителей и завершает игру на сервере.
+- Если ведущий закрывает страницу, игра заканчивается.
 
-### Player
+### Игрок
 
-**US-14. Join a game by ID** (Implemented)
-As a player, I want to enter a game ID and join the running game.
-- If no game is running, I see "There is no active game at the moment".
-- If another game is running, I see "No game with id … is currently running".
-- Joining twice with the same account does not create a duplicate player.
+**US-14. Подключиться к игре по ID** (Реализовано)
+Как игрок, я хочу ввести ID игры и подключиться к идущей игре.
+- Если ни одна игра не идёт, я вижу «There is no active game at the moment».
+- Если идёт другая игра, я вижу «No game with id … is currently running».
+- Повторное подключение с того же аккаунта не создаёт дубль игрока.
 
-**US-15. Answer the current question** (Partial)
-As a player, I want to type my answer and send it.
-- Empty answers are not allowed.
-- The screen says the answer cannot be changed after sending.
-- Limitation: the input is locked only after the host switches questions; before that a player can send several answers ([GAP-5](08-gaps-and-backlog.md)).
+**US-15. Ответить на текущий вопрос** (Частично)
+Как игрок, я хочу ввести ответ и отправить его.
+- Пустые ответы не допускаются.
+- На экране написано, что после отправки ответ изменить нельзя.
+- Ограничение: поле блокируется только после того, как ведущий переключит вопрос; до этого игрок может отправить несколько ответов ([GAP-5](08-gaps-and-backlog.md)).
 
-**US-16. See results** (Implemented)
-As a player, I want to see the revealed answers of all players and the final winners table.
+**US-16. Видеть результаты** (Реализовано)
+Как игрок, я хочу видеть показанные ответы всех игроков и итоговую таблицу победителей.

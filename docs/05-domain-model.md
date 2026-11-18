@@ -1,29 +1,29 @@
-# 5. Domain model and glossary
+# 5. Доменная модель и глоссарий
 
-## Stored entities
+## Хранимые сущности
 
-These entities are stored in the database (SQLite, via Prisma).
+Эти сущности хранятся в базе данных (SQLite через Prisma).
 
 ```mermaid
 erDiagram
-    User ||--o{ Game : "hosts (adminId)"
-    Game ||--o{ Question : "contains (gameId)"
-    Question ||--|{ AcceptedAnswer : "accepts (questionId)"
+    User ||--o{ Game : "ведёт (adminId)"
+    Game ||--o{ Question : "содержит (gameId)"
+    Question ||--|{ AcceptedAnswer : "принимает (questionId)"
 
     User {
         string id
-        string name "unique nickname"
+        string name "уникальный никнейм"
         string password
     }
     Game {
         string id
-        string adminId "host user id"
+        string adminId "id ведущего"
     }
     Question {
         string id
         string gameId
         string text
-        string img "optional image URL"
+        string img "необязательная ссылка на картинку"
     }
     AcceptedAnswer {
         string id
@@ -32,29 +32,29 @@ erDiagram
     }
 ```
 
-The relations are logical only: the database schema has no foreign keys, so deleting a quiz does not delete its questions automatically.
+Связи только логические: в схеме базы нет внешних ключей, поэтому удаление квиза не удаляет его вопросы автоматически.
 
-## Live (in-memory) entities
+## Сущности живой игры (в памяти)
 
-These entities exist only while a game is running and are lost when it ends.
+Эти сущности существуют, только пока идёт игра, и теряются после её окончания.
 
-| Entity | Fields | Notes |
+| Сущность | Поля | Примечания |
 |---|---|---|
-| Active game | quiz ID, players, all questions, active question ID | One per server (BR-20) |
-| Player | user ID, nickname, color, answers | Created when a user joins; removed on disconnect |
-| Player answer | question ID, text, correct or not | Correctness is computed when the answer arrives |
+| Живая игра | ID квиза, игроки, все вопросы, ID активного вопроса | Одна на сервер (BR-20) |
+| Игрок | ID пользователя, никнейм, цвет, ответы | Создаётся при подключении; удаляется при отключении |
+| Ответ игрока | ID вопроса, текст, верный или нет | Правильность вычисляется при получении ответа |
 
-## Glossary
+## Глоссарий
 
-| Term | Meaning | Name in code |
+| Термин | Значение | Название в коде |
 |---|---|---|
-| Quiz | A set of questions prepared by a host. Called "game" in the code. | `Game` |
-| Host | The user who created a quiz and runs it live | `adminId`, "admin" in routes |
-| Live game | A quiz that is currently being played | `gameInstance`, `ActiveGame` |
-| Game ID | Identifier that players enter to join. Shown in the UI as the "link for the players". | `gameId` |
-| Question | A prompt with text and an optional image | `Question` |
-| Accepted answer | A text that counts as a correct answer to a question. A question can have several. | `AcceptedAnswer` |
-| Active question | The question that players see and answer right now | `activeQuestionId` |
-| Reveal | Showing all players' answers to the active question | `SHOW_ANSWERS` |
-| Score | Number of correct answers of a player | computed in `WinnersTable` |
-| Winners table | Final leaderboard sorted by score | `WinnersTable` |
+| Квиз | Набор вопросов, подготовленный ведущим. В коде называется «game». | `Game` |
+| Ведущий | Пользователь, который создал квиз и проводит его вживую | `adminId`, «admin» в маршрутах |
+| Живая игра | Квиз, который сейчас играется | `gameInstance`, `ActiveGame` |
+| ID игры | Идентификатор, который вводят игроки для подключения. В интерфейсе называется «ссылкой для игроков». | `gameId` |
+| Вопрос | Задание с текстом и необязательной картинкой | `Question` |
+| Принимаемый ответ | Текст, который считается правильным ответом на вопрос. У вопроса их может быть несколько. | `AcceptedAnswer` |
+| Активный вопрос | Вопрос, который игроки видят и на который отвечают сейчас | `activeQuestionId` |
+| Показ ответов | Показ ответов всех игроков на активный вопрос | `SHOW_ANSWERS` |
+| Очки | Число правильных ответов игрока | вычисляется в `WinnersTable` |
+| Таблица победителей | Итоговый рейтинг, отсортированный по очкам | `WinnersTable` |

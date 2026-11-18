@@ -1,50 +1,50 @@
-# 7. Non-functional requirements
+# 7. Нефункциональные требования
 
-Status values are explained in the [README](../README.md#status-legend).
+Статусы объяснены в [README](../README.md#статусы).
 
-## Security
+## Безопасность
 
-| ID | Requirement | Status |
+| ID | Требование | Статус |
 |---|---|---|
-| NFR-S1 | Passwords shall be stored hashed (for example bcrypt or argon2), never in plain text. | Not implemented: passwords are stored and compared as plain text |
-| NFR-S2 | The server shall check the user's session on every protected request; the session token shall not be guessable and shall not be readable by page scripts (`HttpOnly`, signed or random token). | Not implemented: the session cookie contains the plain user ID; the frontend only checks that the cookie exists |
-| NFR-S3 | Only the host of a quiz shall be able to change it, delete it or run it. | Not implemented: question, answer, quiz and user endpoints do not check ownership |
-| NFR-S4 | Players shall not receive the correctness of answers before the reveal. | Not implemented: live game state with correct/wrong flags is sent to all clients after every answer |
-| NFR-S5 | Reading a user profile by ID shall not sign the caller in as that user. | Not implemented: `GET /api/users/:id` sets the session cookie for that ID |
-| NFR-S6 | Users shall not be able to change or delete other users' accounts. | Not implemented |
-| NFR-S7 | The API shall accept requests only from the frontend origin. | Implemented (CORS with `ALLOWED_ORIGIN`) |
+| NFR-S1 | Пароли должны храниться в виде хеша (например, bcrypt или argon2), а не открытым текстом. | Не реализовано: пароли хранятся и сравниваются открытым текстом |
+| NFR-S2 | Сервер должен проверять сессию пользователя в каждом защищённом запросе; токен сессии должен быть неугадываемым и недоступным скриптам страницы (`HttpOnly`, подписанный или случайный токен). | Не реализовано: cookie сессии содержит ID пользователя в открытом виде; фронтенд проверяет только наличие cookie |
+| NFR-S3 | Изменять, удалять и запускать квиз должен только его ведущий. | Не реализовано: эндпоинты вопросов, ответов, квизов и пользователей не проверяют владельца |
+| NFR-S4 | Игроки не должны получать правильность ответов до их показа. | Не реализовано: после каждого ответа всем клиентам отправляется состояние игры с отметками верно или неверно |
+| NFR-S5 | Запрос профиля пользователя по ID не должен выполнять вход под этим пользователем. | Не реализовано: `GET /api/users/:id` устанавливает cookie сессии для этого ID |
+| NFR-S6 | Пользователи не должны иметь возможности изменять или удалять чужие аккаунты. | Не реализовано |
+| NFR-S7 | API должно принимать запросы только с домена фронтенда. | Реализовано (CORS с `ALLOWED_ORIGIN`) |
 
-## Performance and capacity
+## Производительность и нагрузка
 
-| ID | Requirement | Status |
+| ID | Требование | Статус |
 |---|---|---|
-| NFR-P1 | A host action (switch question, reveal) shall reach all players in under 1 second. | Implemented for small groups (single process, in-memory state) |
-| NFR-P2 | The system shall support at least 50 players in one game. | Not verified |
-| NFR-P3 | The system shall support several games at the same time. | Not implemented (BR-20) |
-| NFR-P4 | REST requests shall complete within the client timeout of 1 second. | Partial: the 1 s timeout may be too short for a cold container start |
+| NFR-P1 | Действие ведущего (переключение вопроса, показ ответов) должно доходить до всех игроков меньше чем за 1 секунду. | Реализовано для небольших групп (один процесс, состояние в памяти) |
+| NFR-P2 | Система должна поддерживать не меньше 50 игроков в одной игре. | Не проверено |
+| NFR-P3 | Система должна поддерживать несколько игр одновременно. | Не реализовано (BR-20) |
+| NFR-P4 | REST-запросы должны укладываться в клиентский таймаут 1 секунда. | Частично: 1 секунды может не хватить при холодном старте контейнера |
 
-## Reliability and data
+## Надёжность и данные
 
-| ID | Requirement | Status |
+| ID | Требование | Статус |
 |---|---|---|
-| NFR-R1 | A live game shall survive a short disconnect of a player or the host (reconnect within 30 s). | Not implemented |
-| NFR-R2 | A server restart shall not lose quizzes. | Implemented (SQLite file) |
-| NFR-R3 | Deleting a quiz shall delete its questions and accepted answers. | Not implemented: no foreign keys or cascade |
-| NFR-R4 | Game results shall be saved. | Not implemented |
+| NFR-R1 | Живая игра должна переживать короткое отключение игрока или ведущего (переподключение в течение 30 секунд). | Не реализовано |
+| NFR-R2 | Перезапуск сервера не должен приводить к потере квизов. | Реализовано (файл SQLite) |
+| NFR-R3 | Удаление квиза должно удалять его вопросы и принимаемые ответы. | Не реализовано: нет внешних ключей и каскадного удаления |
+| NFR-R4 | Результаты игр должны сохраняться. | Не реализовано |
 
-## Usability
+## Удобство использования
 
-| ID | Requirement | Status |
+| ID | Требование | Статус |
 |---|---|---|
-| NFR-U1 | The player screen shall be usable on a phone. | Not verified |
-| NFR-U2 | Errors from the server shall be shown as readable messages. | Partial: server error texts are shown in toasts as-is (for example `Error: ...`) |
-| NFR-U3 | Players shall be able to join by a link, without typing the ID. | Not implemented: the "link" is the bare game ID |
-| NFR-U4 | Quizzes shall be shown by title, not by number. | Not implemented |
+| NFR-U1 | Экраном игрока должно быть удобно пользоваться на телефоне. | Не проверено |
+| NFR-U2 | Ошибки сервера должны показываться понятными сообщениями. | Частично: тексты ошибок сервера показываются в уведомлениях как есть (например, `Error: ...`) |
+| NFR-U3 | Игроки должны иметь возможность подключиться по ссылке, не вводя ID. | Не реализовано: «ссылка» — это просто ID игры |
+| NFR-U4 | Квизы должны показываться по названию, а не по номеру. | Не реализовано |
 
-## Operations
+## Эксплуатация
 
-| ID | Requirement | Status |
+| ID | Требование | Статус |
 |---|---|---|
-| NFR-O1 | Frontend is deployed as a static site to GitHub Pages. | Implemented |
-| NFR-O2 | Backend is deployed as a Docker container (Amvera) with database migrations. | Implemented |
-| NFR-O3 | Automated tests and CI shall run on every PR. | Not implemented |
+| NFR-O1 | Фронтенд разворачивается как статический сайт на GitHub Pages. | Реализовано |
+| NFR-O2 | Бэкенд разворачивается как Docker-контейнер (Amvera) с миграциями базы данных. | Реализовано |
+| NFR-O3 | Автотесты и CI должны запускаться в каждом PR. | Не реализовано |
