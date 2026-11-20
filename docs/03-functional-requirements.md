@@ -44,27 +44,27 @@
 | ID | Требование | Статус | Код |
 |---|---|---|---|
 | FR-30 | Ведущий должен иметь возможность запустить живую игру из конструктора; активным становится первый вопрос. | Реализовано | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
-| FR-31 | Система должна отклонять запуск игры, пока идёт другая игра. | Реализовано (это ограничение, см. [GAP-1](08-gaps-and-backlog.md)) | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
-| FR-32 | Ведущий должен иметь возможность скопировать ID игры, чтобы отправить его игрокам. | Реализовано | FE [ActiveQuiz](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminActiveQuiz/ActiveQuiz.tsx) |
+| FR-31 | Система должна отклонять запуск игры, пока идёт другая игра. | Реализовано (этап 4a: не более одного сеанса на квиз и на ведущего, BR-51) | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
+| FR-32 | Ведущий должен иметь возможность скопировать ID игры, чтобы отправить его игрокам. | Реализовано (этап 4a: копируется ссылка-приглашение `/join/<sessionId>` и QR-код) | FE [ActiveQuiz](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminActiveQuiz/ActiveQuiz.tsx) |
 | FR-33 | Ведущий должен видеть активный вопрос (текст и картинку) и список игроков в реальном времени. | Реализовано | FE [ActiveQuiz](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminActiveQuiz/ActiveQuiz.tsx) |
 | FR-34 | Ведущий должен видеть, кто из игроков ответил на активный вопрос. | Реализовано | FE [Players](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/Players.tsx) |
-| FR-35 | Ведущий должен иметь возможность сделать активным любой вопрос квиза в любом порядке. | Реализовано | |
+| FR-35 | Ведущий должен иметь возможность сделать активным любой вопрос квиза в любом порядке. | Заменено целевым BR-60 (этап 4a): строгий порядок, только следующий вопрос | |
 | FR-36 | Ведущий должен иметь возможность показать всем все ответы на активный вопрос с отметкой «верно» или «неверно». | Реализовано | |
 | FR-37 | Ведущий должен иметь возможность завершить квиз и показать всем таблицу победителей. | Реализовано | FE [WinnersTable](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/WinnersTable.tsx) |
 | FR-38 | Ведущий должен иметь возможность остановить игру после показа победителей. | Реализовано | |
-| FR-39 | Игра должна заканчиваться, когда ведущий уходит со страницы живой игры. | Реализовано | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
+| FR-39 | Игра должна заканчиваться, когда ведущий уходит со страницы живой игры. | Заменено целевым BR-59 (этап 4a): сеанс живёт 5-минутный grace-таймер ведущего | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
 
 ## 3.5 Живая игра: игрок
 
 | ID | Требование | Статус | Код |
 |---|---|---|---|
-| FR-40 | Вошедший пользователь должен иметь возможность подключиться к идущей игре, введя её ID. | Реализовано | FE [MainWindow](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/MainWindow/index.tsx), BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
-| FR-41 | Если игра с таким ID не идёт, система должна показывать понятное сообщение. | Реализовано | |
+| FR-40 | Вошедший пользователь должен иметь возможность подключиться к идущей игре, введя её ID. | Реализовано (этап 4a: вход по ссылке-приглашению или ввод ссылки в форму) | FE [MainWindow](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/MainWindow/index.tsx), BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
+| FR-41 | Если игра с таким ID не идёт, система должна показывать понятное сообщение. | Реализовано (этап 4a: экран «ссылка недействительна / игра закончилась», FR-73) | |
 | FR-42 | Пользователь должен появляться в игре только один раз, даже после переподключения. | Реализовано | |
 | FR-43 | Каждому игроку должен назначаться цвет в списке игроков. | Реализовано: случайный из 6 цветов | BE [utils](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/utils.ts) |
 | FR-44 | Игрок должен видеть активный вопрос, и вопрос должен меняться, когда ведущий его переключает. | Реализовано | FE [Player](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/Player/index.tsx) |
 | FR-45 | Игрок должен отправлять один непустой текстовый ответ на вопрос и не иметь возможности его изменить. | Реализовано (этап 3: BR-63, BR-64) | FE [Player](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/Player/index.tsx), BE [ActiveGameService](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/active-game/active-game.service.ts) |
 | FR-46 | Игрок должен видеть показанные ответы всех игроков. | Реализовано | FE [Players](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/Players.tsx) |
 | FR-47 | Когда ведущий показывает победителей, игрок должен попадать на страницу победителей. | Реализовано | FE [Winners](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/Winners/index.tsx) |
-| FR-48 | Игрок должен узнавать, что ведущий завершил игру. | Не реализовано: экран игрока игнорирует событие завершения игры | FE [ActiveGameProvider](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/ActiveGameProvider.tsx) |
-| FR-49 | Игрок, который отключился и вернулся, должен сохранять свои ответы. | Не реализовано: отключившийся игрок удаляется вместе со всеми ответами | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
+| FR-48 | Игрок должен узнавать, что ведущий завершил игру. | Реализовано (этап 4a: `SESSION_ENDED` + экран окончания, FR-79) | FE [ActiveGameProvider](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/ActiveGameProvider.tsx) |
+| FR-49 | Игрок, который отключился и вернулся, должен сохранять свои ответы. | Реализовано (этап 4a: BR-58, переподключение `JOIN_SESSION`, FR-77) | BE [activeGameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/activeGameController.ts) |
