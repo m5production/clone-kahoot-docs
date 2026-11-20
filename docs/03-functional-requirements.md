@@ -1,6 +1,6 @@
 # 3. Функциональные требования
 
-Требования версии 1.0 (FR-50–FR-83) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования).
+Требования версии 1.0 (FR-50–FR-87) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования).
 
 Каждое требование ссылается на код, который его реализует. «FE» — [фронтенд](https://github.com/m5production/clone-kahoot), «BE» — [бэкенд](https://github.com/m5production/clone-kahoot-backend).
 
@@ -8,11 +8,11 @@
 
 | ID | Требование | Статус | Код |
 |---|---|---|---|
-| FR-1 | Система должна позволять гостю войти по никнейму и паролю. | Реализовано | FE [Authorisation](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/Authorisation/index.tsx), BE [userController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/userController.ts) |
-| FR-2 | Если никнейм не зарегистрирован, система должна создать новый аккаунт с введёнными данными и выполнить вход. | Реализовано | FE [useUserAuthorize](https://github.com/m5production/clone-kahoot/blob/HEAD/src/useUserAuthorize.ts) |
+| FR-1 | Система должна позволять гостю войти по никнейму и паролю на отдельной странице входа; аккаунт при этом не создаётся. | Реализовано | FE [LoginPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/login/login.ui.tsx), [LoginForm](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/session/login/login.ui.tsx), BE [AuthController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/auth/auth.controller.ts) |
+| FR-2 | Система должна позволять гостю зарегистрировать аккаунт по никнейму и паролю на отдельной странице регистрации и сразу выполнить вход. | Реализовано | FE [RegisterPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/register/register.ui.tsx), [RegisterForm](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/session/register/register.ui.tsx), BE [AuthController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/auth/auth.controller.ts) |
 | FR-3 | Никнеймы должны быть уникальными. | Реализовано | BE [schema](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/prisma/schema.prisma) |
 | FR-4 | Система должна сохранять вход между визитами и перенаправлять вошедшего пользователя со страницы входа на главную. | Реализовано | FE [useUserAuthorize](https://github.com/m5production/clone-kahoot/blob/HEAD/src/useUserAuthorize.ts) |
-| FR-5 | Все страницы, кроме страницы входа, должны быть доступны только вошедшим пользователям. | Частично: проверка только в браузере (см. [NFR-S2](07-non-functional-requirements.md)) | FE [Router](https://github.com/m5production/clone-kahoot/blob/HEAD/src/Router.tsx) |
+| FR-5 | Без входа доступны приветственный экран и страницы входа и регистрации; все остальные страницы доступны только вошедшим пользователям. | Реализовано | FE [AppRouter](https://github.com/m5production/clone-kahoot/blob/HEAD/src/app/router/app-router.tsx), [RequireAuth](https://github.com/m5production/clone-kahoot/blob/HEAD/src/app/router/require-auth.tsx), [GuestOnly](https://github.com/m5production/clone-kahoot/blob/HEAD/src/app/router/guest-only.tsx) |
 | FR-6 | Пользователь должен иметь возможность выйти. | Реализовано | FE [MainWindow](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/MainWindow/index.tsx) |
 | FR-7 | На главной странице должен показываться никнейм вошедшего пользователя. | Реализовано | FE [UserAvatar](https://github.com/m5production/clone-kahoot/blob/HEAD/src/components/ui/UserAvatar.tsx) |
 
