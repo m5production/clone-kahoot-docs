@@ -6,8 +6,8 @@
 
 | Репозиторий | Роль |
 |---|---|
-| [clone-kahoot](https://github.com/m5production/clone-kahoot) | Фронтенд: React SPA на GitHub Pages ([демо](https://dimetriyo.github.io/clone-kahoot/)) |
-| [clone-kahoot-backend](https://github.com/m5production/clone-kahoot-backend) | Бэкенд: REST API на Express и WebSocket-сервер, Prisma и SQLite, Docker на Amvera |
+| [clone-kahoot](https://github.com/m5production/clone-kahoot) | Фронтенд: React SPA на GitHub Pages ([демо](https://m5production.github.io/clone-kahoot/)) |
+| [clone-kahoot-backend](https://github.com/m5production/clone-kahoot-backend) | Бэкенд: модульный монолит на NestJS (Express adapter) — REST API и WebSocket-сервер, Prisma и PostgreSQL, Docker на Amvera |
 
 ## Содержание
 
