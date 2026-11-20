@@ -22,8 +22,8 @@
 |---|---|---|---|
 | FR-10 | Система должна показывать список квизов, созданных вошедшим пользователем. | Реализовано | BE [gameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/gameController.ts) |
 | FR-11 | Пользователь должен иметь возможность создать новый квиз; создатель становится его ведущим. | Реализовано | FE [usePostAddNewGame](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/MainWindow/api/usePostAddNewGame.ts) |
-| FR-12 | Ведущий должен иметь возможность задать квизу название. | Не реализовано: квизы показаны как «Quiz #N» | |
-| FR-13 | Ведущий должен иметь возможность удалить квиз со всеми вопросами. | Не реализовано в интерфейсе; API удаляет только запись квиза | BE [gameController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/gameController.ts) |
+| FR-12 | Ведущий должен иметь возможность задать квизу название. | Реализовано | FE [CreateGameForm](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/game/create-game/create-game.ui.tsx), [RenameGameTitle](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/game/rename-game/rename-game.ui.tsx), BE [GamesController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/games/games.controller.ts) |
+| FR-13 | Ведущий должен иметь возможность удалить квиз со всеми вопросами. | Реализовано | FE [DeleteGameButton](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/game/delete-game/delete-game.ui.tsx), BE [schema](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/prisma/schema.prisma) |
 
 ## 3.3 Конструктор квиза
 
@@ -35,8 +35,8 @@
 | FR-23 | У вопроса должен быть один или несколько принимаемых ответов; ведущий может их добавлять и удалять. | Реализовано | FE [QuestionConstructor](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminQuizReview/QuestionConstructor.tsx), BE [acceptedAnswersController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/acceptedAnswersController.ts) |
 | FR-24 | Сохранение вопроса должно обновлять его текст и картинку и заменять его принимаемые ответы. | Реализовано | BE [acceptedAnswersController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/acceptedAnswersController.ts) |
 | FR-25 | Ведущий должен иметь возможность удалить вопрос вместе с принимаемыми ответами. | Реализовано | FE [useDeleteQuestion](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminQuizReview/api/useDeleteQuestion.ts) |
-| FR-26 | Ведущий должен иметь возможность менять порядок вопросов. | Не реализовано: порядок определяется базой данных | |
-| FR-27 | Кнопка «Start this quiz» должна быть недоступна, пока у каждого вопроса нет текста и хотя бы одного принимаемого ответа. | Не реализовано: кнопка доступна всегда | FE [AdminQuizReview](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/AdminQuizReview/index.tsx) |
+| FR-26 | Ведущий должен иметь возможность менять порядок вопросов. | Реализовано | FE [MoveQuestionButtons](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/question/reorder-questions/reorder-questions.ui.tsx), BE [GamesController.reorder](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/games/games.controller.ts) |
+| FR-27 | Кнопка «Start this quiz» должна быть недоступна, пока у каждого вопроса нет текста и хотя бы одного принимаемого ответа. | Реализовано | FE [QuizEditorPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.tsx), BE [ActiveGameService](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/active-game/active-game.service.ts) |
 | FR-28 | Просматривать и редактировать квиз должен только его ведущий. | Не реализовано: любой пользователь, знающий ID квиза, может его редактировать | BE [questionController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/controllers/questionController.ts) |
 
 ## 3.4 Живая игра: ведущий
