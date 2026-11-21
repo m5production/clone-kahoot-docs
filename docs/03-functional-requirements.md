@@ -1,6 +1,6 @@
 # 3. Функциональные требования
 
-Требования версии 1.0 (FR-50–FR-87) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования).
+Требования версии 1.0 (FR-50–FR-87) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования). Требования FR-88–FR-92 перенесены сюда из [документа 11](11-mobile-quiz-editor.md) после реализации.
 
 Каждое требование ссылается на код, который его реализует. «FE» — [фронтенд](https://github.com/m5production/clone-kahoot), «BE» — [бэкенд](https://github.com/m5production/clone-kahoot-backend).
 
@@ -38,6 +38,11 @@
 | FR-26 | Ведущий должен иметь возможность менять порядок вопросов. | Реализовано | FE [MoveQuestionButtons](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/question/reorder-questions/reorder-questions.ui.tsx), BE [GamesController.reorder](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/games/games.controller.ts) |
 | FR-27 | Кнопка «Start this quiz» должна быть недоступна, пока у каждого вопроса нет текста и хотя бы одного принимаемого ответа. | Реализовано | FE [QuizEditorPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.tsx), BE [ActiveGameService](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/active-game/active-game.service.ts) |
 | FR-28 | Просматривать и редактировать квиз должен только его ведущий. | Реализовано: `getOwned` проверяет владельца во всех изменяющих запросах (GAP-3) | BE [QuestionsController](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/questions/questions.controller.ts) |
+| FR-88 | При ширине меньше 768 px конструктор показывает один раздел за раз — «Вопросы» или «Вопрос» — с закреплённой нижней панелью навигации; при 768 px и шире сохраняется двухколоночная раскладка (US-33). | Реализовано ([документ 11](11-mobile-quiz-editor.md)) | FE [QuizEditorPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.tsx), [QuizEditorMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.mobile.tsx) |
+| FR-89 | Выбор вопроса и добавление нового переключают на раздел «Вопрос»; удаление открытого вопроса возвращает на раздел «Вопросы» (US-33). | Реализовано | FE [QuizEditorPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.tsx) |
+| FR-90 | На разделе «Вопросы» нижней панели показывается число неготовых к игре вопросов (FR-55, BR-49). | Реализовано | FE [EditorNavBar](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.mobile-nav.tsx) |
+| FR-91 | «Start this quiz» на узком экране — FAB над нижней панелью, видимая в обоих разделах; при неготовом квизе приглушена, нажатие объясняет причину (BR-49). | Реализовано | FE [StartSessionFab](https://github.com/m5production/clone-kahoot/blob/HEAD/src/features/active-game/start-session/start-session.ui.fab.tsx) |
+| FR-92 | Название квиза и ссылка «Back to quizzes» на узком экране находятся в шапке; название обрезается троеточием и остаётся доступным для переименования (US-17, FR-50). | Реализовано | FE [QuizEditorMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/quiz-editor/quiz-editor.ui.mobile.tsx) |
 
 ## 3.4 Живая игра: ведущий
 
