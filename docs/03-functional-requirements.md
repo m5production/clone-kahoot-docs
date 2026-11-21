@@ -1,6 +1,6 @@
 # 3. Функциональные требования
 
-Требования версии 1.0 (FR-50–FR-87) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования). Требования FR-88–FR-92 перенесены сюда из [документа 11](11-mobile-quiz-editor.md) после реализации.
+Требования версии 1.0 (FR-50–FR-87) и изменения требований ниже — в [целевых требованиях](09-target-requirements.md#96-новые-функциональные-требования). Требования FR-88–FR-92 перенесены сюда из [документа 11](11-mobile-quiz-editor.md), FR-93–FR-97 — из [документа 12](12-mobile-host-game.md), FR-98–FR-103 — из [документа 13](13-multiple-choice-questions.md) после реализации.
 
 Каждое требование ссылается на код, который его реализует. «FE» — [фронтенд](https://github.com/m5production/clone-kahoot), «BE» — [бэкенд](https://github.com/m5production/clone-kahoot-backend).
 
@@ -61,6 +61,11 @@
 | FR-37 | Ведущий должен иметь возможность завершить квиз и показать всем таблицу победителей. | Реализовано | FE [WinnersTable](https://github.com/m5production/clone-kahoot/blob/HEAD/src/entities/player/player.ui.winners-table.tsx) |
 | FR-38 | Ведущий должен иметь возможность остановить игру после показа победителей. | Реализовано | |
 | FR-39 | Игра должна заканчиваться, когда ведущий уходит со страницы живой игры. | Заменено целевым BR-59 (этап 4a): сеанс живёт 5-минутный grace-таймер ведущего | BE [ActiveGameGateway](https://github.com/m5production/clone-kahoot-backend/blob/HEAD/src/modules/active-game/active-game.gateway.ts) |
+| FR-93 | При ширине меньше 768 px игровой экран ведущего — одноколоночный: шапка с прогрессом и приглашением, вопрос и таймер в центре, сворачиваемая панель игроков и закреплённая панель действий внизу; при 768 px и шире сохраняется трёхколоночная раскладка (US-34, D-12). | Реализовано ([документ 12](12-mobile-host-game.md)) | FE [SessionHostMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session/session.ui.host-mobile.tsx) |
+| FR-94 | Мобильная панель действий показывает ту же контекстную кнопку управления, что десктоп (BR-60), и «End the session» с подтверждением (FR-70); `data-testid` кнопок сохраняются. | Реализовано | FE [SessionHostMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session/session.ui.host-mobile.tsx) |
+| FR-95 | На узком экране список игроков сворачивается до заголовка «Players (N)» и раскрывается по касанию; во время открытого вопроса показывает, кто уже ответил (FR-63, FR-65). | Реализовано | FE [SessionHostMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session/session.ui.host-mobile.tsx) |
+| FR-96 | При показе ответов список ответов каждого игрока отображается в основном контенте под вопросом (FR-67). | Реализовано | FE [SessionHostMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session/session.ui.host-mobile.tsx) |
+| FR-97 | Ссылка-приглашение и QR-код открываются из шапки в любом состоянии игрового экрана (BR-57, FR-62). | Реализовано | FE [SessionHostMobile](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session/session.ui.host-mobile.tsx) |
 | FR-103 | Отчёт игры показывает для вопроса «выбор из вариантов» варианты с отметкой верного и выбор каждого игрока (US-37, FR-81). | Реализовано ([документ 13](13-multiple-choice-questions.md)) | FE [SessionReportPage](https://github.com/m5production/clone-kahoot/blob/HEAD/src/pages/session-report/session-report.ui.tsx) |
 
 ## 3.5 Живая игра: игрок
