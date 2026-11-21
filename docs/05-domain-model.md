@@ -9,6 +9,7 @@ erDiagram
     User ||--o{ Game : "ведёт (adminId)"
     Game ||--o{ Question : "содержит (gameId)"
     Question ||--|{ AcceptedAnswer : "принимает (questionId)"
+    Question ||--o{ QuestionOption : "варианты (questionId)"
 
     User {
         string id
@@ -22,6 +23,7 @@ erDiagram
     Question {
         string id
         string gameId
+        string type "'open' | 'choice', по умолчанию 'open'"
         string text
         string img "необязательная ссылка на картинку"
     }
@@ -29,6 +31,13 @@ erDiagram
         string id
         string questionId
         string text
+    }
+    QuestionOption {
+        string id
+        string questionId
+        int order "порядок показа (D-13)"
+        string text "≤ 100 символов"
+        boolean isCorrect "ровно один верный"
     }
 ```
 
@@ -52,8 +61,9 @@ erDiagram
 | Ведущий | Пользователь, который создал квиз и проводит его вживую | `adminId`, «admin» в маршрутах |
 | Живая игра | Квиз, который сейчас играется | `gameInstance`, `ActiveGame` |
 | ID игры | Идентификатор, который вводят игроки для подключения. В интерфейсе называется «ссылкой для игроков». | `gameId` |
-| Вопрос | Задание с текстом и необязательной картинкой | `Question` |
-| Принимаемый ответ | Текст, который считается правильным ответом на вопрос. У вопроса их может быть несколько. | `AcceptedAnswer` |
+| Вопрос | Задание с текстом и необязательной картинкой. Тип `open` — ответ текстом, `choice` — выбор из вариантов | `Question` |
+| Принимаемый ответ | Текст, который считается правильным ответом на вопрос `open`. У вопроса их может быть несколько. | `AcceptedAnswer` |
+| Вариант ответа | Один из 2–4 предложенных ответов вопроса `choice`; верным помечен ровно один ([документ 13](13-multiple-choice-questions.md)) | `QuestionOption` |
 | Активный вопрос | Вопрос, который игроки видят и на который отвечают сейчас | `activeQuestionId` |
 | Показ ответов | Показ ответов всех игроков на активный вопрос | `SHOW_ANSWERS` |
 | Очки | Число правильных ответов игрока | вычисляется в `WinnersTable` |

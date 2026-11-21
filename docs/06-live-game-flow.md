@@ -85,3 +85,14 @@ sequenceDiagram
 Сервер отправляет сообщения **всем** подключённым клиентам, а не только игрокам конкретной игры. Это работает только потому, что одновременно идёт одна игра (BR-20).
 
 Сервер не проверяет, кто отправил сообщение: любой подключённый клиент может отправить сообщения ведущего, например `CHANGE_QUESTION` или `END_GAME` (см. [GAP-3](08-gaps-and-backlog.md)).
+
+### Вопросы «выбор из вариантов»
+
+С добавлением типа вопроса `choice` ([документ 13](13-multiple-choice-questions.md)) целевой протокол (документ 9.8, `backend/docs/websocket-protocol.md`) расширен:
+
+- `SESSION_STATE.question` содержит `type` и для `choice` — `options: [{id, text}]` **без** `isCorrect` (BR-88): верность вариантов не уходит клиентам до показа ответов.
+- `ANSWER_QUESTION` принимает `{questionId, answer}` для `open` и `{questionId, optionId}` для `choice`; неизвестный `optionId` → `FAULT BAD_REQUEST`.
+- `ANSWER_ACCEPTED` для `choice` — `{questionId, optionId, text}`; то же эхо отправляется при переподключении.
+- `ANSWERS_REVEALED` для `choice` добавляет `correctOptionId`; в `answers[]` у каждого игрока — `optionId` и текст выбранного варианта.
+
+Ответ по `optionId` засчитывается верным, если выбран вариант с `isCorrect`; очки — по той же формуле скорости BR-70.
